@@ -43,6 +43,11 @@ dependencies:
   smooth_page_indicator: ^1.1.0
   flutter_styled_toast: ^2.2.1
 
+  #firebase
+  firebase_core: ^2.27.0
+  firebase_auth: ^4.17.8
+  cloud_firestore: ^4.15.8
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
