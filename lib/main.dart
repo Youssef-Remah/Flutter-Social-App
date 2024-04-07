@@ -61,10 +61,28 @@ class MyApp extends StatelessWidget {
         debugShowCheckedModeBanner: false,
         theme: ThemeData(
           useMaterial3: false,
+          scaffoldBackgroundColor: Colors.white,
           bottomNavigationBarTheme: const BottomNavigationBarThemeData(
             selectedItemColor: Colors.blue,
             unselectedItemColor: Colors.grey,
             showUnselectedLabels: true,
+          ),
+          appBarTheme: const AppBarTheme(
+            color: Colors.white,
+            elevation: 0.0,
+            titleTextStyle: TextStyle(
+              color: Colors.black,
+              fontWeight: FontWeight.bold,
+              fontSize: 18.0,
+            ),
+            iconTheme: IconThemeData(
+              color: Colors.black,
+              size: 20.0,
+            ),
+            actionsIconTheme: IconThemeData(
+              color: Colors.black,
+              size: 22.0,
+            ),
           ),
         ),
         home: startWidget,

@@ -52,3 +52,28 @@ Color chooseToastState({
 
   return color;
 }
+
+PreferredSizeWidget? defaultAppBar({
+  required BuildContext context,
+  String? title,
+  List<Widget>? actions,
+})
+{
+  return AppBar(
+    leading: IconButton(
+      onPressed: ()
+      {
+        Navigator.pop(context);
+      },
+      icon: const Icon(
+        Icons.keyboard_arrow_left_outlined,
+        size: 30.0,
+      ),
+    ),
+    title: Text(
+      title??'',
+    ),
+    titleSpacing: 5.0,
+    actions: actions??[],
+  );
+}

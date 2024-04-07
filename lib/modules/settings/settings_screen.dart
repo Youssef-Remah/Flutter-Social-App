@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:social_app/modules/edit_profile/edit_profile_screen.dart';
 import 'package:social_app/shared/cubit/cubit.dart';
 import 'package:social_app/shared/cubit/states.dart';
 
@@ -15,7 +16,7 @@ class SettingsScreen extends StatelessWidget {
       },
       builder: (BuildContext context, SocialStates state)
       {
-        var userModel = SocialCubit.get(context).model;
+        var userModel = SocialCubit.get(context).userModel;
 
         return Padding(
           padding: const EdgeInsets.all(8.0),
@@ -224,7 +225,15 @@ class SettingsScreen extends StatelessWidget {
                   ),
 
                   OutlinedButton(
-                    onPressed: (){},
+                    onPressed: ()
+                    {
+                      Navigator.push(
+                        context,
+                          MaterialPageRoute(
+                            builder: (BuildContext context) => EditProfileScreen(),
+                          ),
+                      );
+                    },
                     child: Icon(Icons.mode_edit_outlined),
                   )
                 ],
