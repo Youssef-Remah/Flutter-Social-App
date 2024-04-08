@@ -4,6 +4,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:social_app/models/post_model.dart';
 import 'package:social_app/models/social_user_model.dart';
 import 'package:social_app/modules/chats/chats_screen.dart';
 import 'package:social_app/modules/feeds/feeds_screen.dart';
@@ -255,6 +256,95 @@ class SocialCubit extends Cubit<SocialStates>
         .catchError((error)
     {
       emit(SocialUserUpdateErrorState());
+    });
+  }
+
+  File? postImage;
+
+  Future<void> getPostImage() async
+  {
+    final pickedFile = await picker.pickImage(source: ImageSource.gallery);
+
+    if(pickedFile != null)
+    {
+      postImage = File(pickedFile.path);
+
+      emit(SocialPostImagePickedSuccessState());
+    }
+    else
+    {
+      print('No Image Selected');
+
+      emit(SocialPostImagePickedErrorState());
+    }
+  }
+
+  void removePostImage()
+  {
+    postImage = null;
+
+    emit(SocialRemovePostImageState());
+  }
+
+  void uploadPostImage  ({
+    required String dateTime,
+    required String text,
+  })
+  {
+    emit(SocialCreatePostLoadingState());
+
+    firebase_storage.FirebaseStorage.instance
+        .ref()
+        .child('posts/${Uri.file(postImage!.path)
+        .pathSegments.last}')
+        .putFile(postImage!)
+        .then((p0){
+      p0.ref.getDownloadURL().then((value)
+      {
+        createPost(
+          dateTime: dateTime,
+          text: text,
+          postImage: value,
+        );
+
+      }).catchError((error)
+      {
+        emit(SocialCreatePostErrorState());
+      });
+    })
+        .catchError((error)
+    {
+      emit(SocialCreatePostErrorState());
+    });
+  }
+
+  void createPost({
+    required String dateTime,
+    required String text,
+    String? postImage,
+  })
+  {
+    emit(SocialCreatePostLoadingState());
+
+    PostModel model = PostModel(
+      name: userModel!.name,
+      uId: userModel!.uId,
+      image: userModel!.image,
+      dateTime: dateTime,
+      text: text,
+      postImage: postImage??'',
+    );
+
+    FirebaseFirestore.instance
+        .collection('posts')
+        .add(model.toMap())
+        .then((value)
+    {
+      emit(SocialCreatePostSuccessState());
+    })
+        .catchError((error)
+    {
+      emit(SocialCreatePostErrorState());
     });
   }
 
