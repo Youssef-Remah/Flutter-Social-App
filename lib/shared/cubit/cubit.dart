@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
@@ -346,6 +347,71 @@ class SocialCubit extends Cubit<SocialStates>
     {
       emit(SocialCreatePostErrorState());
     });
+  }
+
+  List<PostModel> posts = [];
+
+  List<String> postsId = [];
+
+  List<int> likes = [];
+
+  void getPosts()
+  {
+    FirebaseFirestore.instance
+      .collection('posts')
+      .get()
+      .then((value)
+      {
+
+        for (var doc in value.docs)
+        {
+          doc.reference
+            .collection('likes')
+            .get()
+            .then((value)
+            {
+              likes.add(value.docs.length);
+              
+              postsId.add(doc.id);
+
+              posts.add(PostModel.fromJson(doc.data()));
+            })
+            .catchError((error)
+            {
+            });
+        }
+
+        emit(SocialGetPostsSuccessState());
+      })
+      .catchError((error)
+      {
+
+        emit(SocialGetPostsErrorState(error.toString()));
+      });
+  }
+
+  void likePost(String postId)
+  {
+    FirebaseFirestore.instance
+      .collection('posts')
+      .doc(postId)
+      .collection('likes')
+      .doc(userModel!.uId)
+      .set(
+        {
+          'like':true,
+        }
+      )
+      .then((value)
+      {
+
+        emit(SocialLikePostSuccessState());
+      })
+      .catchError((error)
+      {
+
+        emit(SocialLikePostErrorState(error.toString()));
+      });
   }
 
 }
