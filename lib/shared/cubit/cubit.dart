@@ -357,6 +357,8 @@ class SocialCubit extends Cubit<SocialStates>
 
   void getPosts()
   {
+    emit(SocialGetPostsLoadingState());
+
     FirebaseFirestore.instance
       .collection('posts')
       .get()
@@ -375,13 +377,14 @@ class SocialCubit extends Cubit<SocialStates>
               postsId.add(doc.id);
 
               posts.add(PostModel.fromJson(doc.data()));
+
+              emit(SocialGetPostsSuccessState());
             })
             .catchError((error)
             {
+              emit(SocialGetPostsErrorState(error.toString()));
             });
         }
-
-        emit(SocialGetPostsSuccessState());
       })
       .catchError((error)
       {

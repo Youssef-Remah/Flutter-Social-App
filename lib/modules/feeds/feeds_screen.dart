@@ -20,7 +20,7 @@ class FeedsScreen extends StatelessWidget {
       builder: (BuildContext context, SocialStates state)
       {
         return ConditionalBuilder(
-          condition: SocialCubit.get(context).posts.isNotEmpty && SocialCubit.get(context).userModel != null,
+          condition: state is! SocialGetUserLoadingState && state is! SocialGetPostsLoadingState,
 
           builder: (BuildContext context)
           {
