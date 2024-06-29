@@ -1,16 +1,30 @@
-# social_app
+# Social App
+This Social App built with Flutter allows users to connect with friends, share posts, and engage with the community.
 
-A new Flutter project.
+## Features
+- **Sign In / Sign Up:** Start the app by creating a new account or signing into an existing one.
 
-## Getting Started
+- **Home Page:** View all posts from users, like posts, and write comments.
 
-This project is a starting point for a Flutter application.
+- **Chats Screen:** Chat with your friends and stay connected.
 
-A few resources to get you started if this is your first Flutter project:
+- **Upload Post:** Create new posts and share them with your followers.
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+- **Settings:** View and modify your profile information, including your profile and cover photos, name, bio, and mobile number. Check out your stats like the number of posts, photos, followers, and followings.
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+## Installation
+**1- Clone the repository:**
+
+`git clone https://github.com/Youssef-Remah/Flutter-Social-App.git`
+
+**2- Navigate to the project directory:**
+
+`cd social-app`
+
+**3- Install dependencies:**
+
+`flutter pub get`
+
+**4- Run the application:**
+
+`flutter run`
